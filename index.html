@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take-Home Salary Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 h-screen flex justify-center items-center">
+
+<div class="bg-white p-8 rounded-lg shadow-md w-96">
+    <h2 class="text-2xl font-semibold mb-6">Take-Home Salary Calculator</h2>
+
+    <div class="mb-4">
+        <label for="annualSalary" class="block text-sm font-medium text-gray-600">Annual Salary (£):</label>
+        <input type="number" id="annualSalary" value="86000" placeholder="Enter annual salary" class="mt-2 p-2 w-full border rounded-md">
+    </div>
+
+    <div class="mb-4">
+      <label for="pensionContribution" class="block text-sm font-medium text-gray-600">Enter Pension (£):</label>
+      <input type="number" id="pensionContribution" value="146.76" placeholder="Enter pension" class="mt-2 p-2 w-full border rounded-md">
+  </div>
+
+    <button onclick="displayTakeHomeSalary()" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Calculate</button>
+
+    <div id="results" class="mt-6 space-y-2">
+        <p><strong class="text-gray-700">Gross Monthly Salary:</strong> <span id="grossMonthly" class="text-blue-500"></span></p>
+        <p><strong class="text-gray-700">Income Tax Monthly:</strong> <span id="incomeTax" class="text-blue-500"></span></p>
+        <p><strong class="text-gray-700">Monthly National Insurance:</strong> <span id="monthlyNI" class="text-blue-500"></span></p>
+        <p><strong class="text-gray-700">Monthly Pension:</strong> <span id="monthlyPension" class="text-blue-500"></span></p>
+        <p><strong class="text-gray-700">Student Loan Repayment:</strong> <span id="studentLoanRepayment" class="text-blue-500"></span></p>
+        <p><strong class="text-gray-700">Total Monthly Deductions:</strong> <span id="totalDeductions" class="text-blue-500"></span></p>
+        <p><strong class="text-gray-700">Net Monthly Salary:</strong> <span id="takeHomeMonthly" class="text-blue-500"></span></p>
+    </div>
+</div>
+
+<script src="salaryCalculator.js"></script>
+<script>
+    function displayTakeHomeSalary() {
+        const annualSalary = parseFloat(document.getElementById('annualSalary').value);
+        const pensionContribution = parseFloat(document.getElementById('pensionContribution').value);
+        const result = calculateTakeHomeSalary(annualSalary, taxBands, studentLoanRate, niRates, undefined, pensionContribution);
+
+        document.getElementById('grossMonthly').textContent = `£${result.grossMonthly.toFixed(2)}`;
+        document.getElementById('totalDeductions').textContent = `£${result.totalDeductions.toFixed(2)}`;
+        document.getElementById('takeHomeMonthly').textContent = `£${result.takeHomeMonthly.toFixed(2)}`;
+        document.getElementById('incomeTax').textContent = `£${result.incomeTax.toFixed(2)}`;
+        document.getElementById('monthlyNI').textContent = `£${result.monthlyNI.toFixed(2)}`;
+        document.getElementById('monthlyPension').textContent = `£${result.monthlyPension.toFixed(2)}`;
+        document.getElementById('studentLoanRepayment').textContent = `£${result.studentLoanRepayment.toFixed(2)}`;
+    }
+</script>
+</body>
+</html>
