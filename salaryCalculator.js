@@ -1,4 +1,36 @@
-function calculateTakeHomeSalary(annualSalary, taxBands, studentLoanRate, niRates, _pensionRate, pensionContribution) {
+/**
+ * Made with help from ChatGPT
+ */
+
+const getStudentLoanPlan = () => {
+  const studentLoanPlan = document.getElementById('studentLoanPlan').value;
+  console.log(studentLoanPlan);
+
+  if (studentLoanPlan === 'none') {
+    return
+  }
+
+  if (studentLoanPlan === 'plan1') {
+  // Plan 1
+  // monthly threshold is 1,834
+    return {
+      threshold: 22015,
+      rate: 0.09
+    };
+  }
+
+  if (studentLoanPlan === 'plan2') {
+    // Plan 2
+    // monthly threshold is 1,834
+    return {
+      threshold: 27295,
+      rate: 0.09
+    };
+  }
+}
+
+function calculateTakeHomeSalary(annualSalary, taxBands, _undefined1, niRates, _pensionRate, pensionContribution, pensionContributionP) {
+  const studentLoanRate = getStudentLoanPlan();
   // Income Tax
   let incomeTax = 0;
 
@@ -12,7 +44,7 @@ function calculateTakeHomeSalary(annualSalary, taxBands, studentLoanRate, niRate
   }
 
   // Student Loan Repayment
-  const studentLoanRepayment = Math.max(0, annualSalary - studentLoanRate.threshold) * studentLoanRate.rate;
+  const studentLoanRepayment = studentLoanRate ? Math.max(0, annualSalary - studentLoanRate.threshold) * studentLoanRate.rate : 0;
 
   // National Insurance
   const monthlyEarnings = annualSalary / 12;
@@ -26,6 +58,23 @@ function calculateTakeHomeSalary(annualSalary, taxBands, studentLoanRate, niRate
           // console.log(niAmount, nationalInsuranceDue, rate)
           monthlyNI += nationalInsuranceDue;
       }
+  }
+
+  const autoEnrollmentBands = {
+    lower: 6240,
+    upper: 50270,
+  }
+
+  const difference = autoEnrollmentBands.upper - autoEnrollmentBands.lower;
+
+  const salMinusLower = annualSalary - autoEnrollmentBands.lower;
+
+  if (salMinusLower > 0) {
+    if (salMinusLower > difference) {
+      pensionContribution = (difference / 12) * pensionContributionP;
+    } else {
+      pensionContribution = (salMinusLower / 12) * pensionContributionP;
+    }
   }
 
   // Pension
@@ -77,20 +126,6 @@ Plan 5	£25,000	£2,083	£480
 Postgraduate Loan	£21,000	£1,750	£403
  */
 
-// Plan 1
-// monthly threshold is 1,834
-const studentLoanRate = {
-  threshold: 22015,
-  rate: 0.09
-};
-
-// Plan 2
-// monthly threshold is 1,834
-// const studentLoanRate = {
-//   threshold: 27295,
-//   rate: 0.09
-// };
-
 // Category letter
 // £123 to £242 (£533 to £1,048 a month)	
 // £242.01 to £967 (£1,048.01 to £4,189 a month)
@@ -135,7 +170,7 @@ const pensionRate = 0.00;
 // const overTime = 2400;
 const overTime = 0;
 
-const result = calculateTakeHomeSalary(45000 + overTime, taxBands, studentLoanRate, niRates, pensionRate);
+const result = calculateTakeHomeSalary(45000 + overTime, taxBands, undefined, niRates, pensionRate);
 
 console.log(`Gross Monthly Salary: £${result.grossMonthly.toFixed(2)}`);
 console.log(`Total Monthly Deductions: £${result.totalDeductions.toFixed(2)}`);
