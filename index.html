@@ -21,6 +21,14 @@
       <input type="number" id="pensionContribution" value="146.76" placeholder="Enter pension" class="mt-2 p-2 w-full border rounded-md">
   </div>
 
+    <div class="mb-4">
+        <label for="nationalInsuranceRate" class="block text-sm font-medium text-gray-600">National Insurance Rate:</label>
+        <select id="nationalInsuranceRate" class="mt-2 p-2 w-full border rounded-md">
+            <option value="10">10</option>
+            <option value="12">12</option>
+        </select>
+    </div>
+
     <button onclick="displayTakeHomeSalary()" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Calculate</button>
 
     <div id="results" class="mt-6 space-y-2">
@@ -39,7 +47,9 @@
     function displayTakeHomeSalary() {
         const annualSalary = parseFloat(document.getElementById('annualSalary').value);
         const pensionContribution = parseFloat(document.getElementById('pensionContribution').value);
-        const result = calculateTakeHomeSalary(annualSalary, taxBands, studentLoanRate, niRates, undefined, pensionContribution);
+        const pensionContributionP = parseFloat(document.getElementById('pensionContributionP').value) / 100;
+
+        const result = calculateTakeHomeSalary(annualSalary, taxBands, undefined, undefined, undefined, pensionContribution, pensionContributionP);
 
         document.getElementById('grossMonthly').textContent = `£${result.grossMonthly.toFixed(2)}`;
         document.getElementById('totalDeductions').textContent = `£${result.totalDeductions.toFixed(2)}`;
