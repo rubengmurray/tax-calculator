@@ -71,7 +71,7 @@ function calculateTakeHomeSalary(annualSalary, taxBands, _undefined1, _niRates, 
   }
 
   // Student Loan Repayment
-  const studentLoanRepayment = Math.max(0, annualSalary - studentLoanRate.threshold) * studentLoanRate.rate;
+  const studentLoanRepayment = studentLoanRate ? Math.max(0, annualSalary - studentLoanRate.threshold) * studentLoanRate.rate : 0;
 
   // National Insurance
   const monthlyEarnings = annualSalary / 12;
@@ -88,6 +88,23 @@ function calculateTakeHomeSalary(annualSalary, taxBands, _undefined1, _niRates, 
           monthlyNI += nationalInsuranceDue;
           workings[rate.rate] = nationalInsuranceDue;
       }
+  }
+
+  const autoEnrollmentBands = {
+    lower: 6240,
+    upper: 50270,
+  }
+
+  const difference = autoEnrollmentBands.upper - autoEnrollmentBands.lower;
+
+  const salMinusLower = annualSalary - autoEnrollmentBands.lower;
+
+  if (salMinusLower > 0) {
+    if (salMinusLower > difference) {
+      pensionContribution = (difference / 12) * pensionContributionP;
+    } else {
+      pensionContribution = (salMinusLower / 12) * pensionContributionP;
+    }
   }
 
   // Pension
