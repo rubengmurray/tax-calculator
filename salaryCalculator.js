@@ -32,10 +32,14 @@ const getStudentLoanPlan = () => {
 let workings = {}
 
 const getNationalInsuranceRate = () => {
-  const studentLoanPlan = document.getElementById('nationalInsuranceRate').value;
-  console.log(studentLoanPlan);
+  const nationalInsuranceRace = document.getElementById('nationalInsuranceRate').value;
+  console.log(nationalInsuranceRace);
 
-  if (studentLoanPlan === '10') {
+  if (nationalInsuranceRace === '8') {
+    return 0.08
+  }
+
+  if (nationalInsuranceRace === '10') {
     return 0.1
   }
 
