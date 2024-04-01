@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take-Home Salary Calculator</title>
+    <script src="tailwind/3.3.5.js"></script>
+</head>
+<body class="bg-gray-100 h-screen flex justify-center items-center">
+
+<div class="bg-white p-8 rounded-lg shadow-md w-108">
+    <h2 class="text-2xl font-semibold mb-6">Take-Home Salary Calculator</h2>
+
+    <div class="mb-4">
+        <label for="annualSalary" class="block text-sm font-medium text-gray-600">Annual Salary (£):</label>
+        <input type="number" id="annualSalary" value="30000" placeholder="Enter annual salary" class="mt-2 p-2 w-full border rounded-md">
+    </div>
+
+    <div class="mb-4">
+        <label for="pensionContribution" class="block text-sm font-medium text-gray-600">Enter Pension (£):</label>
+        <input type="number" id="pensionContribution" value="0" placeholder="Enter pension" class="mt-2 p-2 w-full border rounded-md">
+    </div>
+
+    <div class="mb-4">
+        <label for="pensionContribution" class="block text-sm font-medium text-gray-600">Enter Pension (%):</label>
+        <input type="number" id="pensionContributionP" value="0" placeholder="Enter pension" class="mt-2 p-2 w-full border rounded-md">
+    </div>
+
+    <div class="mb-4">
+        <label for="studentLoanPlan" class="block text-sm font-medium text-gray-600">Student Loan Plan:</label>
+        <select id="studentLoanPlan" class="mt-2 p-2 w-full border rounded-md">
+            <option value="none">None</option>
+            <option value="plan1">Plan 1</option>
+            <option value="plan2">Plan 2</option>
+        </select>
+    </div>
+
+    <div class="mb-4">
+        <label for="nationalInsuranceRate" class="block text-sm font-medium text-gray-600">National Insurance Rate:</label>
+        <select id="nationalInsuranceRate" class="mt-2 p-2 w-full border rounded-md">
+            <option value="8">8</option>
+            <option value="10">10</option>
+            <option value="12">12</option>
+        </select>
+    </div>
+
+    <button onclick="displayTakeHomeSalary()" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Calculate</button>
+
+    <div id="results" class="mt-6 space-y-2 mb-2">
+        <p><strong class="text-gray-700">Gross Monthly Salary:</strong> <span id="grossMonthly" class="text-blue-500"></span></p>
+        <p><strong class="text-gray-700">Income Tax Monthly:</strong> <span id="incomeTax" class="text-blue-500"></span></p>
+        <p><strong class="text-gray-700">Monthly National Insurance:</strong> <span id="monthlyNI" class="text-blue-500"></span></p>
+        <p><strong class="text-gray-700">Monthly Pension:</strong> <span id="monthlyPension" class="text-blue-500"></span></p>
+        <p><strong class="text-gray-700">Student Loan Repayment:</strong> <span id="studentLoanRepayment" class="text-blue-500"></span></p>
+        <p><strong class="text-gray-700">Total Monthly Deductions:</strong> <span id="totalDeductions" class="text-blue-500"></span></p>
+        <p><strong class="text-gray-700">Net Monthly Salary:</strong> <span id="takeHomeMonthly" class="text-blue-500"></span></p>
+    </div>
+        <hr />
+    <p class="text-xs text-yellow-900 mt-2 mb-2">Your salary data does not leave this page.</p>
+    <hr />
+    <p class="text-xs text-gray-500 mt-2 mb-2">Built by <a href="https://reece-daniels.vercel.app" target="_blank"
+        class="text-gray-800">Reece Daniels</a>, with the help of ChatGPT.</p>
+    <hr />
+    <span class="text-xs text-gray-500 mt-2 mb-2">This tool is open-source. You can find the code on <a href="https://github.com/rubengmurray/tax-calculator" target="_blank">GitHub</a>.</span>
+</div>
+
+
+<script src="salaryCalculator.js"></script>
+<script>
+    function displayTakeHomeSalary() {
+        const annualSalary = parseFloat(document.getElementById('annualSalary').value);
+        const pensionContribution = parseFloat(document.getElementById('pensionContribution').value);
+        const pensionContributionP = parseFloat(document.getElementById('pensionContributionP').value) / 100;
+
+        const result = calculateTakeHomeSalary(annualSalary, taxBands, undefined, undefined, undefined, pensionContribution, pensionContributionP);
+
+        document.getElementById('grossMonthly').textContent = `£${result.grossMonthly.toFixed(2)}`;
+        document.getElementById('totalDeductions').textContent = `£${result.totalDeductions.toFixed(2)}`;
+        document.getElementById('takeHomeMonthly').textContent = `£${result.takeHomeMonthly.toFixed(2)}`;
+        document.getElementById('incomeTax').textContent = `£${result.incomeTax.toFixed(2)}`;
+        document.getElementById('monthlyNI').textContent = `£${result.monthlyNI.toFixed(2)}`;
+        document.getElementById('monthlyPension').textContent = `£${result.monthlyPension.toFixed(2)}`;
+        document.getElementById('studentLoanRepayment').textContent = `£${result.studentLoanRepayment.toFixed(2)}`;
+    }
+</script>
+</body>
+</html>
