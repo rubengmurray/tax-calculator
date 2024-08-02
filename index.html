@@ -72,8 +72,6 @@
         const pensionContribution = parseFloat(document.getElementById('pensionContribution').value);
         const pensionContributionP = parseFloat(document.getElementById('pensionContributionP').value) / 100;
 
-        console.log(annualSalary, pensionContribution, pensionContributionP);
-
         const result = calculateTakeHomeSalary(annualSalary, taxBands, undefined, undefined, undefined, pensionContribution, pensionContributionP);
 
         document.getElementById('grossMonthly').textContent = `£${result.grossMonthly.toFixed(2)}`;
