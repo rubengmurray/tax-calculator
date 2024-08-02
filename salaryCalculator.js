@@ -33,7 +33,6 @@ let workings = {}
 
 const getNationalInsuranceRate = () => {
   const nationalInsuranceRace = document.getElementById('nationalInsuranceRate').value;
-  console.log(nationalInsuranceRace);
 
   if (nationalInsuranceRace === '8') {
     return 0.08
@@ -102,7 +101,7 @@ function calculateTakeHomeSalary(annualSalary, taxBands, _undefined1, _niRates, 
   const salMinusLower = annualSalary - autoEnrollmentBands.lower;
 
   // https://www.moneyhelper.org.uk/en/pensions-and-retirement/auto-enrolment/automatic-enrolment-an-introduction
-  if (salMinusLower > 0) {
+  if (pensionContributionP && salMinusLower > 0) {
     if (salMinusLower > difference) {
       pensionContribution = (difference / 12) * pensionContributionP;
     } else {
@@ -111,7 +110,7 @@ function calculateTakeHomeSalary(annualSalary, taxBands, _undefined1, _niRates, 
   }
 
   // Pension
-  const monthlyPension = pensionContribution;
+  const monthlyPension = pensionContribution || 0;
 
   // Total Deductions and Take-home Salary
   const totalDeductions = (incomeTax + studentLoanRepayment + monthlyNI * 12 + monthlyPension * 12) / 12;
